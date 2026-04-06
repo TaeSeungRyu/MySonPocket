@@ -17,6 +17,7 @@ class PocketMoneyFormView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainColor = isEdit ? const Color(0xFFFB8C00) : const Color(0xFF764ba2);
     if (arg != null) {
       titleController.text = arg!.title;
       // 화면 표시용 금액은 항상 양수로 보여줌 (부호는 버튼으로 관리)
@@ -27,8 +28,16 @@ class PocketMoneyFormView extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
-        title: Text(isEdit ? "다시 적기" : "기록 하기"),
+        backgroundColor: Colors.white.withOpacity(0.7),
+        title: Text(
+          isEdit ? "고치기 ✏️" : "새로 적기 ✨",
+          style: TextStyle(color: mainColor, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.close, color: mainColor),
+          onPressed: () => Get.back(),
+        ),
       ),
       body: Stack(
         children: [
@@ -56,6 +65,7 @@ class PocketMoneyFormView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 const Text(
                   "돈을 썼는지 받았는지 선택해 줘!",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -93,12 +103,22 @@ class PocketMoneyFormView extends StatelessWidget {
                   controller: titleController,
                   decoration: InputDecoration(
                     hintText: "무엇을 하셨나요?",
+                    hintStyle: TextStyle(color: Colors.grey.shade400),
                     filled: true,
                     fillColor: Colors.white,
-                    border: OutlineInputBorder(
+                    // 1. 기본 테두리 (입력하지 않을 때)
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none,
+                      borderSide: BorderSide(color: Colors.grey.shade200, width: 2),
                     ),
+                    // 2. 선택되었을 때 테두리 (포커스 상태)
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(color: Color(0xFF764ba2), width: 2.5), // 강조색
+                    ),
+                    // 3. 아이콘 추가 (선택 사항: 아이들이 직관적으로 알 수 있게)
+                    prefixIcon: const Icon(Icons.edit_rounded, color: Color(0xFF764ba2)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                   ),
                 ),
                 const SizedBox(height: 25),
@@ -112,13 +132,23 @@ class PocketMoneyFormView extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: "얼마인가요?",
+                    hintStyle: TextStyle(color: Colors.grey.shade400),
                     suffixText: "원",
                     filled: true,
                     fillColor: Colors.white,
-                    border: OutlineInputBorder(
+                    // 1. 기본 테두리 (입력하지 않을 때)
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none,
+                      borderSide: BorderSide(color: Colors.grey.shade200, width: 2),
                     ),
+                    // 2. 선택되었을 때 테두리 (포커스 상태)
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(color: Color(0xFF764ba2), width: 2.5), // 강조색
+                    ),
+                    // 3. 아이콘 추가 (선택 사항: 아이들이 직관적으로 알 수 있게)
+                    prefixIcon: const Icon(Icons.edit_rounded, color: Color(0xFF764ba2)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                   ),
                 ),
                 const SizedBox(height: 40),
