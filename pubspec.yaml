@@ -1,5 +1,5 @@
 name: my_son_pocket
-description: "My Son Pocket"
+description: "용돈 기록"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -15,6 +15,12 @@ dependencies:
   cupertino_icons: ^1.0.8
   get: ^4.6.6
   shared_preferences: ^2.2.2
+  #1. Lottie
+  lottie: ^3.1.0
+  #2. Flutter SVG
+  flutter_svg: ^2.0.10+1
+  #3.아이콘 생성
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -22,5 +28,16 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 flutter:
-
+  assets:
+    - assets/images/
+    - assets/lottie/
   uses-material-design: true
+
+#flutter pub run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: false # 안드로이드 전용이라면 false
+  image_path: "assets/images/app_icon.png"
+  # 안드로이드 8.0 이상을 위한 적응형 아이콘 설정 (선택 사항)
+  adaptive_icon_background: "#667eea" # 배경색 (그래디언트 시작색 추천)
+  adaptive_icon_foreground: "assets/images/app_icon.png" # 앞면 로고
