@@ -93,39 +93,40 @@ class PocketMoneyController extends GetxController {
   // 저장 로직 (데이터 추가 후 리스트 즉시 갱신)
   Future<void> addOrUpdate(String? id, String title, int amount) async {
     try {
-      debugPrint("--- addOrUpdate 시작 ---");
-
       if (id == null) {
         final newId = _generateRandomString(20);
         final newItem = PocketMoney(id: newId, title: title, amount: amount, date: DateTime.now());
         allItems.insert(0, newItem);
-        debugPrint("새 아이템 추가됨: $newId");
       } else {
         int idx = allItems.indexWhere((e) => e.id == id);
         if (idx != -1) {
           allItems[idx] = PocketMoney(id: id, title: title, amount: amount, date: allItems[idx].date);
-          debugPrint("기존 아이템 수정됨: $id");
         }
       }
-
       // JSON 변환 시도 (이 구간에서 에러가 많이 납니다)
       final List<Map<String, dynamic>> jsonList = allItems.map((e) => e.toJson()).toList();
       final String encodedData = jsonEncode(jsonList);
-
-      debugPrint("데이터 변환 성공: $encodedData");
-
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('history', encodedData);
-
       _calculate();
       _refreshDisplay();
-
-      debugPrint("--- 저장 프로세스 완료 ---");
-
     } catch (e, stacktrace) {
-      // 에러가 나면 콘솔에 빨간색으로 원인을 찍어줍니다.
       debugPrint("!!! 에러 발생: $e");
-      debugPrint("스택트레이스: $stacktrace");
     }
+  }
+
+  String get formattedBalance {
+    // 숫자를 문자열로 바꾸고, 뒤에서부터 3자리마다 콤마를 추가하는 정규식입니다.
+    return totalBalance.value.toString().replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+            (Match m) => '${m[1]},'
+    );
+  }
+
+  String formatNumber(int number) {
+    return number.toString().replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+            (Match m) => '${m[1]},'
+    );
   }
 }
