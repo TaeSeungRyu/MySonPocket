@@ -63,7 +63,7 @@ class HomeView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text(
-              "연수 용돈",
+              "너의 용돈!",
               style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20)
           ),
           // 로티 위치를 위아래로 미세하게 조정
@@ -151,7 +151,7 @@ class HomeView extends StatelessWidget {
           Icon(Icons.check_circle_outline, color: Colors.grey.shade700, size: 30),
           const SizedBox(height: 8),
           Text(
-            "모든 기록을 다 읽었어!\n연수는 알뜰살뜰 멋쟁이 칭찬해 👍",
+            "모든 기록을 다 읽었어!\n너는 정말 알뜰살뜰 멋쟁이 칭찬해 👍",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.grey.shade700,

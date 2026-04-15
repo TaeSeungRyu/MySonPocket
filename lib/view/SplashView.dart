@@ -26,14 +26,6 @@ class SplashView extends StatelessWidget {
       backgroundColor: Colors.black, // 사진이 로딩되기 전 잠깐 보일 배경색
       body: Stack(
         children: [
-          // [층 1] 배경 이미지 (가장 아래)
-          SizedBox.expand(
-            child: Image.asset(
-              'assets/images/son.jpg',
-              fit: BoxFit.cover, // 화면에 꽉 차게
-            ),
-          ),
-
           // [층 2] 배경 이미지 위에 어두운 필터 (가독성 확보)
           Container(color: Colors.black.withOpacity(0.3)), // 조금 더 어둡게 조절
           // [층 3] 뒷 배경 전체에 내리는 돈비 애니메이션 (Obx로 투명도 제어)
