@@ -1,3 +1,10 @@
+import java.util.Properties
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(keystorePropertiesFile.inputStream())
+}
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -30,14 +37,36 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String?
+            keyPassword = keystoreProperties["keyPassword"] as String?
+            // rootDir(android폴더)의 부모(프로젝트 루트)에서 파일을 찾습니다.
+            val stFile = keystoreProperties["storeFile"] as String?
+            if (stFile != null) {
+                // 프로젝트 루트 폴더에서 직접 파일을 찾도록 설정
+                storeFile = file("../../$stFile")
+            }
+            storePassword = keystoreProperties["storePassword"] as String?
+        }
+    }
+
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+        getByName("release") {
+            // 위에서 만든 release 서명 설정을 적용합니다.
+            signingConfig = signingConfigs.getByName("release")
+
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }
+
+
 
 flutter {
     source = "../.."
